@@ -24,7 +24,7 @@ if os.path.exists('background'):
 character_folders = [
     'ema', 'hiro', 'sherri', 'hanna', 'anan', 'yuki',
     'meruru', 'noa', 'reia', 'miria', 'nanoka', 'mago', 'alisa', 'coco',
-    'dragon'
+    'dragon', 'anon'
 ]
 
 for folder in character_folders:
