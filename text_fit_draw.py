@@ -237,13 +237,13 @@ def draw_text_auto(
         ascent, descent = font_main.getmetrics()
         line_h = int((ascent + descent) * (1 + line_spacing))
         max_w = 0
-        
+
         for ln in lines:
             if PILMOJI_AVAILABLE:
-                w = pilmoji.getsize(ln, font=font)[0]
+                w = pilmoji.getsize(ln, font=font_main)[0]
             else:
                 temp_draw = ImageDraw.Draw(img)
-                w = temp_draw.textlength(ln, font=font)
+                w = temp_draw.textlength(ln, font=font_main)
             max_w = max(max_w, int(w))
         total_h = max(line_h * max(1, len(lines)), 1)
         return max_w, total_h, line_h
@@ -272,7 +272,6 @@ def draw_text_auto(
     else:
         font_main = _load_font(best_size)
 
-    em_px = emoji_advance_px(font_main)
     ascent, descent = font_main.getmetrics()
 
     # --- 6. 解析着色片段 ---
@@ -313,10 +312,10 @@ def draw_text_auto(
     for ln in best_lines:
         # 计算行宽
         if PILMOJI_AVAILABLE:
-            line_w = pilmoji.getsize(ln, font=font)[0]
+            line_w = pilmoji.getsize(ln, font=font_main)[0]
         else:
             temp_draw = ImageDraw.Draw(img)
-            line_w = int(temp_draw.textlength(ln, font=font))
+            line_w = int(temp_draw.textlength(ln, font=font_main))
         
         if align == "left":
             x = x1
@@ -332,16 +331,16 @@ def draw_text_auto(
                 if PILMOJI_AVAILABLE:
                     # 使用pilmoji绘制彩色emoji
                     # 先绘制阴影
-                    pilmoji.text((x+4, y+4), seg_text, font=font, fill=(0,0,0), emoji_position_offset=(0, 0))
+                    pilmoji.text((x+4, y+4), seg_text, font=font_main, fill=(0,0,0), emoji_position_offset=(0, 0))
                     # 绘制主文字
-                    pilmoji.text((x, y), seg_text, font=font, fill=seg_color, emoji_position_offset=(0, 0))
-                    x += pilmoji.getsize(seg_text, font=font)[0]
+                    pilmoji.text((x, y), seg_text, font=font_main, fill=seg_color, emoji_position_offset=(0, 0))
+                    x += pilmoji.getsize(seg_text, font=font_main)[0]
                 else:
                     # 回退到普通绘制
                     temp_draw = ImageDraw.Draw(img)
-                    temp_draw.text((x+4, y+4), seg_text, font=font, fill=(0,0,0))
-                    temp_draw.text((x, y), seg_text, font=font, fill=seg_color)
-                    x += int(temp_draw.textlength(seg_text, font=font))
+                    temp_draw.text((x+4, y+4), seg_text, font=font_main, fill=(0,0,0))
+                    temp_draw.text((x, y), seg_text, font=font_main, fill=seg_color)
+                    x += int(temp_draw.textlength(seg_text, font=font_main))
         
         y += best_line_h
         if y - y_start > region_h:
