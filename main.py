@@ -16,7 +16,7 @@
 print("""角色说明:
 1为樱羽艾玛，2为二阶堂希罗，3为橘雪莉，4为远野汉娜
 5为夏目安安，6为月代雪，7为冰上梅露露，8为城崎诺亚，9为莲见蕾雅，10为佐伯米莉亚
-11为黑部奈叶香，12为宝生玛格，13为紫藤亚里沙，14为泽渡可可
+11为黑部奈叶香，12为宝生玛格，13为紫藤亚里沙，14为泽渡可可，15为疏艾伦fAz
 
 快捷键说明:
 Ctrl+1 到 Ctrl+9: 切换角色1-9
@@ -25,12 +25,13 @@ Ctrl+e: 切换角色11
 Ctrl+r: 切换角色12
 Ctrl+t: 切换角色13
 Ctrl+y: 切换角色14
+Ctrl+u: 切换角色15
 Ctrl+0: 显示当前角色
 Alt+1-9: 切换表情1-9(部分角色表情较少 望大家谅解)
 Enter: 生成图片
 Esc: 退出程序
 Ctrl+Tab: 清除图片
-      
+
 程序说明：
 这个版本的程序占用体积较小，但是需要预加载，初次更换角色后需要等待数秒才能正常使用，望周知（
 按Tab可清除生成图片，降低占用空间，但清除图片后需重启才能正常使用
@@ -47,8 +48,8 @@ Ctrl+Tab: 清除图片
 # 角色配置
 # 1为樱羽艾玛，2为二阶堂希罗，3为橘雪莉，4为远野汉娜
 # 5为夏目安安，6为月代雪，7为冰上梅露露，8为城崎诺亚，9为莲见蕾雅，10为佐伯米莉亚
-# 11为黑部奈叶香，12为宝生玛格，13为紫藤亚里沙，14为泽渡可可
-current_character_index = 3  # 初始角色为橘雪莉（索引从0开始）
+# 11为黑部奈叶香，12为宝生玛格，13为紫藤亚里沙，14为泽渡可可，15为疏艾伦fAz
+current_character_index = 15  # 初始角色为疏艾伦fAz（索引从0开始）
 
 mahoshojo_postion = [728,355] #文本范围起始位置
 mahoshojo_over = [2339,800]   #文本范围右下角位置
@@ -114,7 +115,8 @@ mahoshojo = {
     "nanoka": {"emotion_count": 5, "font": "font3.ttf"},  # 黑部奈叶香
     "mago": {"emotion_count": 5, "font": "font3.ttf"},   # 宝生玛格
     "alisa": {"emotion_count": 6, "font": "font3.ttf"},   # 紫藤亚里沙
-    "coco": {"emotion_count": 5, "font": "font3.ttf"}
+    "coco": {"emotion_count": 5, "font": "font3.ttf"},    # 泽渡可可
+    "dragon": {"emotion_count": 6, "font": "font3.ttf"}   # 疏艾伦
 }
 
 # 角色文字配置字典 - 每个角色对应4个文字配置
@@ -200,9 +202,15 @@ text_configs_dict = {
     "yuki": [  #月代雪
     {"text":"月","position":(759,63),"font_color":(195,209,231),"font_size":196},
     {"text":"代","position":(948,175),"font_color":(255, 255, 255),"font_size":92},
-    {"text":"雪","position":(1053,117),"font_color":(255, 255, 255),"font_size":147} ,   
+    {"text":"雪","position":(1053,117),"font_color":(255, 255, 255),"font_size":147} ,
     {"text":"","position":(0,0),"font_color":(255, 255, 255),"font_size":1}
-        ]
+        ],
+    "dragon": [  # 疏艾伦fAz
+        {"text":"疏","position":(759,73),"font_color":(255,165,50),"font_size":186},
+        {"text":"艾伦","position":(945,175),"font_color":(255, 255, 255),"font_size":92},
+        {"text":"fAz","position":(1160,120),"font_color":(255, 255, 255),"font_size":130},
+        {"text":"","position":(0,0),"font_color":(255, 255, 255),"font_size":1}  # 占位符
+    ]
 }
 import getpass
 
@@ -270,14 +278,14 @@ def generate_and_save_images(character_name):
 
 def switch_character(new_index):
     global current_character_index
-    if 0 <= new_index < len(character_list):
+    if 1 <= new_index <= len(character_list):
         current_character_index = new_index
         character_name = get_current_character()
         print(f"已切换到角色: {character_name}")
-        
+
         # 生成并保存图片
         generate_and_save_images(character_name)
-        
+
         return True
     return False
 
@@ -575,12 +583,13 @@ def run_start_in_thread():
 for i in range(1,10):
     keyboard.add_hotkey(f'ctrl+{i}', lambda idx=i: switch_character(idx))
 
-# 角色10-13使用特殊快捷键
+# 角色10-15使用特殊快捷键
 keyboard.add_hotkey('ctrl+q', lambda: switch_character(10))   # 角色10
 keyboard.add_hotkey('ctrl+e', lambda: switch_character(11))  # 角色11
 keyboard.add_hotkey('ctrl+r', lambda: switch_character(12))  # 角色12
 keyboard.add_hotkey('ctrl+t', lambda: switch_character(13))  # 角色13
-keyboard.add_hotkey('ctrl+y', lambda: switch_character(0)) 
+keyboard.add_hotkey('ctrl+y', lambda: switch_character(14))  # 角色14
+keyboard.add_hotkey('ctrl+u', lambda: switch_character(15))  # 角色15 疏艾伦fAz
 keyboard.add_hotkey('ctrl+Tab', lambda: delate(magic_cut_folder))
 
 for i in range(1,10):

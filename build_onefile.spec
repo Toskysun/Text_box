@@ -1,29 +1,30 @@
 # -*- mode: python ; coding: utf-8 -*-
-# PyInstaller µ¥ÎÄ¼ş´ò°üÅäÖÃ
-# Ê¹ÓÃ·½·¨: pyinstaller build_onefile.spec
+# PyInstaller å•æ–‡ä»¶æ‰“åŒ…é…ç½®
+# ä½¿ç”¨æ–¹æ³•: pyinstaller build_onefile.spec
 
 import os
 from PyInstaller.utils.hooks import collect_data_files
 
 block_cipher = None
 
-# ÊÕ¼¯ËùÓĞ×ÊÔ´ÎÄ¼ş
+# æ”¶é›†æ‰€æœ‰èµ„æºæ–‡ä»¶
 datas = [
     ('font3.ttf', '.'),
     ('text_fit_draw.py', '.'),
     ('image_fit_paste.py', '.'),
 ]
 
-# Ìí¼Ó±³¾°ÎÄ¼ş¼ĞÖĞµÄËùÓĞÎÄ¼ş
+# æ·»åŠ èƒŒæ™¯æ–‡ä»¶å¤¹ä¸­çš„æ‰€æœ‰æ–‡ä»¶
 if os.path.exists('background'):
     for file in os.listdir('background'):
         if file.endswith('.png'):
             datas.append((os.path.join('background', file), 'background'))
 
-# Ìí¼ÓËùÓĞ½ÇÉ«ÎÄ¼ş¼Ğ
+# æ·»åŠ æ‰€æœ‰è§’è‰²æ–‡ä»¶å¤¹
 character_folders = [
     'ema', 'hiro', 'sherri', 'hanna', 'anan', 'yuki',
-    'meruru', 'noa', 'reia', 'miria', 'nanoka', 'mago', 'alisa', 'coco'
+    'meruru', 'noa', 'reia', 'miria', 'nanoka', 'mago', 'alisa', 'coco',
+    'dragon'
 ]
 
 for folder in character_folders:
@@ -32,13 +33,19 @@ for folder in character_folders:
             if file.endswith('.png'):
                 datas.append((os.path.join(folder, file), folder))
 
-# ÊÕ¼¯ requests µÄ SSL Ö¤Êé£¨Èç¹ûÊ¹ÓÃÁËemoji¹¦ÄÜ£©
+# æ”¶é›† requests çš„ SSL è¯ä¹¦ï¼ˆå¦‚æœä½¿ç”¨äº†emojiåŠŸèƒ½ï¼‰
 try:
     datas += collect_data_files('certifi')
 except:
     pass
 
-# Òş²Øµ¼ÈëµÄÄ£¿é
+# æ”¶é›† keyboard æ¨¡å—çš„æ•°æ®æ–‡ä»¶
+try:
+    datas += collect_data_files('keyboard')
+except:
+    pass
+
+# éšè—å¯¼å…¥çš„æ¨¡å—
 hiddenimports = [
     'PIL._tkinter_finder',
     'PIL._imaging',
@@ -54,10 +61,15 @@ hiddenimports = [
     'win32con',
     'pywintypes',
     'keyboard',
+    'keyboard._keyboard_event',
+    'keyboard._winkeyboard',
+    'keyboard._canonical_names',
     'pyperclip',
+    'ctypes',
+    'ctypes.wintypes',
 ]
 
-# ÅÅ³ı²»ĞèÒªµÄ´óĞÍ¿âÒÔ¼õĞ¡Ìå»ı
+# æ’é™¤ä¸éœ€è¦çš„å¤§å‹åº“ä»¥å‡å°ä½“ç§¯
 excludes = [
     'matplotlib',
     'numpy',
@@ -106,11 +118,11 @@ exe = EXE(
     upx=True,
     upx_exclude=[],
     runtime_tmpdir=None,
-    console=True,  # ¸ÄÎª False ¿ÉÒş²Ø¿ØÖÆÌ¨´°¿Ú
+    console=True,  # æ”¹ä¸º False å¯éšè—æ§åˆ¶å°çª—å£
     disable_windowed_traceback=False,
     argv_emulation=False,
     target_arch=None,
     codesign_identity=None,
     entitlements_file=None,
-    icon=None,  # Èç¹ûÓĞÍ¼±êÎÄ¼ş£¬ÉèÖÃÎª icon='icon.ico'
+    icon=None,  # å¦‚æœæœ‰å›¾æ ‡æ–‡ä»¶ï¼Œè®¾ç½®ä¸º icon='icon.ico'
 )
