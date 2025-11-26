@@ -16,7 +16,7 @@
 print("""角色说明:
 1为樱羽艾玛，2为二阶堂希罗，3为橘雪莉，4为远野汉娜
 5为夏目安安，6为月代雪，7为冰上梅露露，8为城崎诺亚，9为莲见蕾雅，10为佐伯米莉亚
-11为黑部奈叶香，12为宝生玛格，13为紫藤亚里沙，14为泽渡可可，15为疏艾伦fAz，16为千早愛音
+11为黑部奈叶香，12为宝生玛格，13为紫藤亚里沙，14为泽渡可可，15为疏艾伦fAz，16为千早愛音，17为柴郡Cheshire
 
 快捷键说明:
 Ctrl+1 到 Ctrl+9: 切换角色1-9
@@ -27,6 +27,7 @@ Ctrl+t: 切换角色13
 Ctrl+y: 切换角色14
 Ctrl+u: 切换角色15
 Ctrl+i: 切换角色16
+Ctrl+o: 切换角色17
 Ctrl+0: 显示当前角色
 Alt+1-9: 切换表情1-9(部分角色表情较少 望大家谅解)
 Enter: 生成图片
@@ -49,8 +50,8 @@ Ctrl+Tab: 清除图片
 # 角色配置
 # 1为樱羽艾玛，2为二阶堂希罗，3为橘雪莉，4为远野汉娜
 # 5为夏目安安，6为月代雪，7为冰上梅露露，8为城崎诺亚，9为莲见蕾雅，10为佐伯米莉亚
-# 11为黑部奈叶香，12为宝生玛格，13为紫藤亚里沙，14为泽渡可可，15为疏艾伦fAz，16为千早愛音
-current_character_index = 16  # 初始角色为千早愛音（索引从0开始）
+# 11为黑部奈叶香，12为宝生玛格，13为紫藤亚里沙，14为泽渡可可，15为疏艾伦fAz，16为千早愛音，17为柴郡Cheshire
+current_character_index = 17  # 初始角色为柴郡Cheshire（索引从1开始）
 
 mahoshojo_postion = [728,355] #文本范围起始位置
 mahoshojo_over = [2339,800]   #文本范围右下角位置
@@ -118,7 +119,8 @@ mahoshojo = {
     "alisa": {"emotion_count": 6, "font": "font3.ttf"},   # 紫藤亚里沙
     "coco": {"emotion_count": 5, "font": "font3.ttf"},    # 泽渡可可
     "dragon": {"emotion_count": 6, "font": "font3.ttf"},   # 疏艾伦
-    "anon": {"emotion_count": 24, "font": "font3.ttf"}    # 千早愛音
+    "anon": {"emotion_count": 24, "font": "font3.ttf"},    # 千早愛音
+    "Cheshire": {"emotion_count": 15, "font": "font3.ttf"}  # 柴郡Cheshire
 }
 
 # 角色文字配置字典 - 每个角色对应4个文字配置
@@ -218,6 +220,12 @@ text_configs_dict = {
         {"text":"早","position":(945,175),"font_color":(255, 255, 255),"font_size":92},
         {"text":"愛","position":(1042,117),"font_color":(255, 255, 255),"font_size":147},
         {"text":"音","position":(1186,175),"font_color":(255, 255, 255),"font_size":92}
+    ],
+    "Cheshire": [  # 柴郡Cheshire
+        {"text":"柴","position":(759,73),"font_color":(200,100,200),"font_size":186},
+        {"text":"郡","position":(945,175),"font_color":(255, 255, 255),"font_size":92},
+        {"text":"Cheshire","position":(1080,125),"font_color":(255, 255, 255),"font_size":120},
+        {"text":"","position":(0,0),"font_color":(255, 255, 255),"font_size":1}  # 占位符
     ]
 }
 import getpass
@@ -591,7 +599,7 @@ def run_start_in_thread():
 for i in range(1,10):
     keyboard.add_hotkey(f'ctrl+{i}', lambda idx=i: switch_character(idx))
 
-# 角色10-16使用特殊快捷键
+# 角色10-17使用特殊快捷键
 keyboard.add_hotkey('ctrl+q', lambda: switch_character(10))   # 角色10
 keyboard.add_hotkey('ctrl+e', lambda: switch_character(11))  # 角色11
 keyboard.add_hotkey('ctrl+r', lambda: switch_character(12))  # 角色12
@@ -599,6 +607,7 @@ keyboard.add_hotkey('ctrl+t', lambda: switch_character(13))  # 角色13
 keyboard.add_hotkey('ctrl+y', lambda: switch_character(14))  # 角色14
 keyboard.add_hotkey('ctrl+u', lambda: switch_character(15))  # 角色15 疏艾伦fAz
 keyboard.add_hotkey('ctrl+i', lambda: switch_character(16))  # 角色16 千早愛音
+keyboard.add_hotkey('ctrl+o', lambda: switch_character(17))  # 角色17 柴郡Cheshire
 keyboard.add_hotkey('ctrl+Tab', lambda: delate(magic_cut_folder))
 
 for i in range(1,10):

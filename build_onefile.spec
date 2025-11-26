@@ -24,7 +24,7 @@ if os.path.exists('background'):
 character_folders = [
     'ema', 'hiro', 'sherri', 'hanna', 'anan', 'yuki',
     'meruru', 'noa', 'reia', 'miria', 'nanoka', 'mago', 'alisa', 'coco',
-    'dragon', 'anon'
+    'dragon', 'anon', 'Cheshire'
 ]
 
 for folder in character_folders:
@@ -42,6 +42,18 @@ except:
 # 收集 keyboard 模块的数据文件
 try:
     datas += collect_data_files('keyboard')
+except:
+    pass
+
+# 收集 pilmoji 模块的数据文件（emoji 字体支持）
+try:
+    datas += collect_data_files('pilmoji')
+except:
+    pass
+
+# 收集 emoji 模块的数据文件
+try:
+    datas += collect_data_files('emoji')
 except:
     pass
 
@@ -67,6 +79,10 @@ hiddenimports = [
     'pyperclip',
     'ctypes',
     'ctypes.wintypes',
+    'pilmoji',
+    'pilmoji.source',
+    'emoji',
+    'emoji.unicode_codes',
 ]
 
 # 排除不需要的大型库以减小体积
